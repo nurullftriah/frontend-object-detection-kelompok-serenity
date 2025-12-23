@@ -7,28 +7,45 @@
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <h1>Deteksi Objek YOLOv8 (Real-time Kamera)</h1>
+  <div class="container">
+    <div class="header">
+      <h1>Deteksi Objek YOLOv8 (Real-time Kamera)</h1>
+      <p>Webcam → ambil frame → kirim ke Hugging Face Space → tampilkan hasil deteksi.</p>
 
-  <div>
-    <button id="btnStart">Start</button>
-    <button id="btnStop" disabled>Stop</button>
-    <label style="margin-left:12px;">
-      Interval (ms):
-      <input id="interval" type="number" value="500" min="200" step="100" />
-    </label>
-  </div>
-
-  <div style="margin-top:12px; display:flex; gap:16px; align-items:flex-start;">
-    <div>
-      <h3>Live Kamera</h3>
-      <video id="video" autoplay playsinline width="480"></video>
-      <canvas id="canvas" width="480" height="360" style="display:none;"></canvas>
+      <div class="endpoint">
+        <span>Endpoint: https://andinurulfitiriah-object-detection-serenity.hf.space/run/predict</span>
+      </div>
     </div>
 
-    <div style="min-width:420px;">
-      <h3>Hasil Deteksi (JSON)</h3>
-      <pre id="out">{}</pre>
-      <div id="status">Status: Idle</div>
+    <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+          <h3 style="margin:0;">Live Kamera</h3>
+          <div>
+            <button id="btnStart">Start</button>
+            <button id="btnStop" disabled>Stop</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <video id="video" autoplay playsinline></video>
+          <canvas id="canvas" width="480" height="360" style="display:none;"></canvas>
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+          <label>
+            Interval (ms):
+            <input id="interval" type="number" value="500" min="200" step="100" />
+          </label>
+        </div>
+
+        <div id="status" style="margin-top:12px;">Status: Idle</div>
+      </div>
+
+      <div class="card" style="min-width:320px; flex:1;">
+        <h3 style="margin-top:0;">Hasil Deteksi (JSON)</h3>
+        <pre id="out">{}</pre>
+      </div>
     </div>
   </div>
 
