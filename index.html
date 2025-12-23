@@ -8,45 +8,69 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">
+    <header class="header">
       <h1>Deteksi Objek YOLOv8 (Real-time Kamera)</h1>
-      <p>Webcam → ambil frame → kirim ke Hugging Face Space → tampilkan hasil deteksi.</p>
-
+      <p>
+        Webcam → ambil frame → kirim ke Hugging Face Space → tampilkan hasil deteksi.
+      </p>
       <div class="endpoint">
-        <span>Endpoint: https://andinurulfitiriah-object-detection-serenity.hf.space/run/predict</span>
+        Endpoint:
+        <span id="endpointText">https://andinurulfitiriah-object-detection-serenity.hf.space/predict</span>
       </div>
-    </div>
+    </header>
 
-    <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start;">
+    <section class="grid">
       <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
-          <h3 style="margin:0;">Live Kamera</h3>
-          <div>
-            <button id="btnStart">Start</button>
-            <button id="btnStop" disabled>Stop</button>
+        <div class="cardHead">
+          <h2>Live Kamera</h2>
+          <div class="btnRow">
+            <button id="btnStart" class="btn primary">Start</button>
+            <button id="btnStop" class="btn ghost" disabled>Stop</button>
           </div>
         </div>
 
-        <div style="margin-top:12px;">
-          <video id="video" autoplay playsinline></video>
-          <canvas id="canvas" width="480" height="360" style="display:none;"></canvas>
+        <div class="videoWrap">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
         </div>
 
-        <div style="margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-          <label>
-            Interval (ms):
-            <input id="interval" type="number" value="500" min="200" step="100" />
+        <div class="controls">
+          <label class="field">
+            <span>Interval (ms)</span>
+            <input id="interval" type="number" value="500" min="250" step="50" />
           </label>
+
+          <label class="field">
+            <span>Confidence minimum</span>
+            <input id="minConf" type="number" value="0.25" min="0" max="1" step="0.05" />
+          </label>
+
+          <label class="check">
+            <input id="drawBoxes" type="checkbox" checked />
+            <span>Gambar bounding box</span>
+          </label>
+
+          <div id="status" class="status idle">Status: Idle</div>
         </div>
 
-        <div id="status" style="margin-top:12px;">Status: Idle</div>
+        <!-- Canvas untuk capture frame (disembunyikan) -->
+        <canvas id="canvas" width="640" height="480" class="hidden"></canvas>
       </div>
 
-      <div class="card" style="min-width:320px; flex:1;">
-        <h3 style="margin-top:0;">Hasil Deteksi (JSON)</h3>
-        <pre id="out">{}</pre>
+      <div class="card">
+        <div class="cardHead">
+          <h2>Hasil Deteksi (JSON)</h2>
+          <button id="btnClear" class="btn ghost">Clear</button>
+        </div>
+
+        <pre id="out" class="code">{}</pre>
+
+        <div class="hint">
+          Catatan: Real-time di HF Space memakai “kirim frame per interval”.
+          Jika interval terlalu kecil, bisa kena rate limit atau lambat.
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 
   <script type="module" src="./main.js"></script>
