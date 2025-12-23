@@ -1,83 +1,37 @@
 <!doctype html>
 <html lang="id">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Deteksi Objek YOLOv8 - Real-time Kamera</title>
-    <link rel="stylesheet" href="./style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deteksi YOLOv8 Real-time</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
-
 <body>
-    <main class="container">
-        <header class="header">
-            <h1>Deteksi Objek YOLOv8 (Real-time Kamera)</h1>
-            <p>
-                Webcam → ambil frame → kirim ke Hugging Face Space → tampilkan hasil deteksi.
-            </p>
-            <p class="endpoint">
-                Endpoint: <span id="endpointText"></span>
-            </p>
-        </header>
+  <h1>Deteksi Objek YOLOv8 (Real-time Kamera)</h1>
 
-        <section class="grid">
-            <div class="card">
-                <div class="card-header">
-                    <h2>Live Kamera</h2>
-                    <div class="actions">
-                        <button id="btnStart" class="btn primary">Start</button>
-                        <button id="btnStop" class="btn" disabled>Stop</button>
-                    </div>
-                </div>
+  <div>
+    <button id="btnStart">Start</button>
+    <button id="btnStop" disabled>Stop</button>
+    <label style="margin-left:12px;">
+      Interval (ms):
+      <input id="interval" type="number" value="500" min="200" step="100" />
+    </label>
+  </div>
 
-                <div class="video-wrap">
-                    <video id="video" autoplay playsinline muted></video>
-                    <canvas id="overlay"></canvas>
-                </div>
+  <div style="margin-top:12px; display:flex; gap:16px; align-items:flex-start;">
+    <div>
+      <h3>Live Kamera</h3>
+      <video id="video" autoplay playsinline width="480"></video>
+      <canvas id="canvas" width="480" height="360" style="display:none;"></canvas>
+    </div>
 
-                <div class="controls">
-                    <label>
-                        Interval (ms):
-                        <input id="intervalMs" type="number" min="250" step="50" value="500" />
-                    </label>
+    <div style="min-width:420px;">
+      <h3>Hasil Deteksi (JSON)</h3>
+      <pre id="out">{}</pre>
+      <div id="status">Status: Idle</div>
+    </div>
+  </div>
 
-                    <label>
-                        Confidence minimum:
-                        <input id="minConf" type="number" min="0" max="1" step="0.05" value="0.25" />
-                    </label>
-
-                    <label class="checkbox">
-                        <input id="drawBoxes" type="checkbox" checked />
-                        Gambar bounding box
-                    </label>
-                </div>
-
-                <div class="status">
-                    <span>Status:</span>
-                    <strong id="statusText" class="badge idle">Idle</strong>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h2>Hasil Deteksi (JSON)</h2>
-                    <button id="btnClear" class="btn">Clear</button>
-                </div>
-
-                <pre id="jsonOut" class="json">{}</pre>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <small>
-                Catatan: Real-time di HF Space memakai “kirim frame per interval”. Jika interval terlalu kecil, bisa
-                rate limit / lambat.
-            </small>
-        </footer>
-    </main>
-
-    <script src="./app.js"></script>
+  <script type="module" src="./main.js"></script>
 </body>
-
 </html>
-
