@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deteksi Objek YOLOv8</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1 class="title">Deteksi Objek YOLOv8</h1>
+                <p class="subtitle">
+                    Frontend untuk praktikum Computer Vision. Unggah gambar, kirim ke API, dan tampilkan hasil deteksi
+                    dalam format JSON.
+                </p>
+            </div>
+            <div class="badge">AI in Production • Frontend (Vercel)</div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>Unggah Gambar</h3>
+
+                <div class="uploader">
+                    <div class="input">
+                        <input type="file" id="imageInput" accept="image/*" />
+                    </div>
+
+                    <div class="preview" id="previewBox">
+                        <span class="status">Preview akan muncul di sini</span>
+                    </div>
+
+                    <div class="btnRow">
+                        <button id="btnDetect" onclick="sendImage()">Deteksi</button>
+                        <button class="secondary" onclick="resetAll()">Reset</button>
+                        <span class="status" id="statusText">Status: <span class="ok">Siap</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Hasil Deteksi (JSON)</h3>
+                <pre id="result">{}</pre>
+
+                <div class="footer">
+                    Endpoint API: <a id="apiLink" href="#" target="_blank" rel="noreferrer"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Catatan: Pastikan API backend online dan dapat diakses publik.
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
