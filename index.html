@@ -1,63 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Deteksi Objek YOLOv8</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Deteksi Objek YOLOv8 - Real-time Kamera</title>
+    <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <div>
-                <h1 class="title">Deteksi Objek YOLOv8</h1>
-                <p class="subtitle">
-                    Frontend untuk praktikum Computer Vision. Unggah gambar, kirim ke API, dan tampilkan hasil deteksi
-                    dalam format JSON.
-                </p>
-            </div>
-            <div class="badge">AI in Production • Frontend (Vercel)</div>
-        </div>
+    <main class="container">
+        <header class="header">
+            <h1>Deteksi Objek YOLOv8 (Real-time Kamera)</h1>
+            <p>
+                Webcam → ambil frame → kirim ke Hugging Face Space → tampilkan hasil deteksi.
+            </p>
+            <p class="endpoint">
+                Endpoint: <span id="endpointText"></span>
+            </p>
+        </header>
 
-        <div class="grid">
+        <section class="grid">
             <div class="card">
-                <h3>Unggah Gambar</h3>
-
-                <div class="uploader">
-                    <div class="input">
-                        <input type="file" id="imageInput" accept="image/*" />
+                <div class="card-header">
+                    <h2>Live Kamera</h2>
+                    <div class="actions">
+                        <button id="btnStart" class="btn primary">Start</button>
+                        <button id="btnStop" class="btn" disabled>Stop</button>
                     </div>
+                </div>
 
-                    <div class="preview" id="previewBox">
-                        <span class="status">Preview akan muncul di sini</span>
-                    </div>
+                <div class="video-wrap">
+                    <video id="video" autoplay playsinline muted></video>
+                    <canvas id="overlay"></canvas>
+                </div>
 
-                    <div class="btnRow">
-                        <button id="btnDetect" onclick="sendImage()">Deteksi</button>
-                        <button class="secondary" onclick="resetAll()">Reset</button>
-                        <span class="status" id="statusText">Status: <span class="ok">Siap</span></span>
-                    </div>
+                <div class="controls">
+                    <label>
+                        Interval (ms):
+                        <input id="intervalMs" type="number" min="250" step="50" value="500" />
+                    </label>
+
+                    <label>
+                        Confidence minimum:
+                        <input id="minConf" type="number" min="0" max="1" step="0.05" value="0.25" />
+                    </label>
+
+                    <label class="checkbox">
+                        <input id="drawBoxes" type="checkbox" checked />
+                        Gambar bounding box
+                    </label>
+                </div>
+
+                <div class="status">
+                    <span>Status:</span>
+                    <strong id="statusText" class="badge idle">Idle</strong>
                 </div>
             </div>
 
             <div class="card">
-                <h3>Hasil Deteksi (JSON)</h3>
-                <pre id="result">{}</pre>
-
-                <div class="footer">
-                    Endpoint API: <a id="apiLink" href="#" target="_blank" rel="noreferrer"></a>
+                <div class="card-header">
+                    <h2>Hasil Deteksi (JSON)</h2>
+                    <button id="btnClear" class="btn">Clear</button>
                 </div>
+
+                <pre id="jsonOut" class="json">{}</pre>
             </div>
-        </div>
+        </section>
 
-        <div class="footer">
-            Catatan: Pastikan API backend online dan dapat diakses publik.
-        </div>
-    </div>
+        <footer class="footer">
+            <small>
+                Catatan: Real-time di HF Space memakai “kirim frame per interval”. Jika interval terlalu kecil, bisa
+                rate limit / lambat.
+            </small>
+        </footer>
+    </main>
 
-    <script src="main.js"></script>
+    <script src="./app.js"></script>
 </body>
 
 </html>
